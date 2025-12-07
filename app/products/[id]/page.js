@@ -18,14 +18,8 @@ export default function ProductDetailsPage({ params }) {
     useEffect(() => {
         const fetchProduct = async () => {
             try {
-                const response = await axios.get(`/api/allProducts`);
-                console.log(response.data)
-                const filteredProduct = await response.data.find(p => p._id == id);
-                console.log(filteredProduct)
-                if (!filteredProduct) {
-                    throw new Error('Product not found');
-                }
-                setProduct(filteredProduct);
+                const response = await axios.get(`/api/product/${id}`);
+                setProduct(response.data);
             } catch (error) {
                 console.error("Failed to fetch product:", error);
             } finally {
@@ -35,7 +29,9 @@ export default function ProductDetailsPage({ params }) {
         fetchProduct();
     }, [id]);
     if (loading) {
-        return <div className="text-center py-12">Loading...</div>;
+        return <div className="flex justify-center items-center min-h-[60vh]">
+            <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-green-700"></div>
+        </div>;
     }
 
 
